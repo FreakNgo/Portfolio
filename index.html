@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antify | Rajveer Nanadikar Portfolio</title>
+    <style>
+        /* Modern CSS Custom Reset & Variables */
+        :root {
+            --bg-dark: #090a0f;
+            --card-dark: #121420;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary: #10b981;
+            --primary-rgb: 16, 185, 129;
+            --primary-hover: #059669;
+            --text-white: #ffffff;
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.06) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.03) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Decorative Background Blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .blob-1 {
+            top: 10%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: rgba(16, 185, 129, 0.15);
+        }
+        .blob-2 {
+            top: 60%;
+            right: -5%;
+            width: 500px;
+            height: 500px;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header Navigation */
+        header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 48px);
+            max-width: 1000px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            background: rgba(18, 20, 32, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-white);
+            font-weight: 800;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+        }
+
+        .logo-box {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-dark);
+            font-weight: 900;
+            font-size: 1.15rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Buttons & Actions */
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-white);
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-muted);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Main Hero Styling */
+        .hero {
+            padding: 160px 0 80px 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .badge {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--primary);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 28px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .badge-dot::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: pulse 1.5s infinite;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-white);
+            line-height: 1.15;
+            margin-bottom: 24px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .btn-hero-main {
+            padding: 16px 32px;
+            font-size: 0.95rem;
+            border-radius: 16px;
+        }
+
+        .btn-hero-sec {
+            background: var(--card-dark);
+            border: 1px solid var(--card-border);
+            color: var(--text-white);
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-hero-sec:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .stat-card {
+            background: rgba(18, 20, 32, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .stat-val {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-lbl {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Dividers */
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 50%, transparent);
+            margin: 60px 0;
+        }
+
+        /* Core Section Typography */
+        .section-header {
+            margin-bottom: 48px;
+        }
+
+        .section-tag {
+            color: var(--primary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-white);
+            letter-spacing: -0.01em;
+        }
+
+        /* About Section Layout */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-info h3 {
+            font-size: 1.8rem;
+            color: var(--text-white);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .about-info p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .grid-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .feature-card {
+            background: var(--card-dark);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(16, 185, 129, 0.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .feature-card h4 {
+            color: var(--text-white);
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        /* Projects Section */
+        .projects-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 48px;
+        }
+
+        .projects-header p {
+            color: var(--text-muted);
+            max-width: 380px;
+            font-size: 0.9rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--card-dark);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        /* Simulated Web App Artwork */
+        .project-artwork {
+            height: 180px;
+            border-bottom: 1px solid var(--card-border);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .artwork-aif {
+            background: linear-gradient(135deg, #1e1b4b, rgba(16, 185, 129, 0.15));
+        }
+
+        .artwork-compressor {
+            background: linear-gradient(135deg, #064e3b, rgba(52, 211, 153, 0.1));
+        }
+
+        .artwork-friendz {
+            background: linear-gradient(135deg, #3b0764, rgba(99, 102, 241, 0.1));
+        }
+
+        .artwork-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.05em;
+        }
+
+        /* Mock interface styling */
+        .mock-ui {
+            width: 80%;
+            height: 110px;
+            background: rgba(9, 10, 15, 0.95);
+            border: 1px solid var(--card-border);
+            border-radius: 12px 12px 0 0;
+            transform: translateY(24px);
+            padding: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .mock-ui {
+            transform: translateY(16px);
+        }
+
+        .mock-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .mock-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .mock-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .mock-url {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        .mock-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .mock-line-sm {
+            height: 6px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 2px;
+            width: 35%;
+        }
+
+        .mock-line-md {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            width: 80%;
+        }
+
+        .mock-input {
+            height: 24px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            border-radius: 4px;
+            margin-top: 6px;
+        }
+
+        .project-details {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-details h3 {
+            color: var(--text-white);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .project-details p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Direct Connect Banner Area */
+        .connect-banner {
+            background: linear-gradient(135deg, var(--card-dark), #090a0f);
+            border: 1px solid var(--card-border);
+            border-radius: 32px;
+            padding: 48px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .connect-banner h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-white);
+        }
+
+        .connect-banner p {
+            color: var(--text-muted);
+            max-width: 500px;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--card-border);
+            background: rgba(0,0,0,0.3);
+            padding: 48px 0;
+            margin-top: 120px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copyright {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2;
+        }
+
+        .social-link:hover {
+            color: var(--text-white);
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Interactive Toast System */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: var(--bg-dark);
+            padding: 14px 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .toast-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toast-content h5 {
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .toast-content p {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.6); opacity: 0; }
+            100% { transform: scale(0.95); opacity: 0; }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            .about-layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                top: 0;
+                width: 100%;
+                left: 0;
+                transform: none;
+            }
+            nav {
+                border-radius: 0;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                padding: 12px 18px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn-hero-sec, .btn-primary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background decorative structures -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Top Navigation Header -->
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">
+                <div class="logo-box">A</div>
+                <span>ANTIFY</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#hero">Home</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <button onclick="copyEmail()" class="btn-secondary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                    <span>Copy Email</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container">
+
+        <!-- Hero Presentational Banner -->
+        <section id="hero" class="hero">
+            <div class="badge">
+                <span class="badge-dot"></span>
+                <span>Active Showcase Portfolio</span>
+            </div>
+
+            <h1>Hi, I am <span class="gradient-text">Rajveer</span></h1>
+            <p>A passionate web developer and creator behind <strong>Antify</strong>. I design and build highly optimized, responsive web environments with streamlined UI/UX interfaces.</p>
+
+            <div class="hero-ctas">
+                <a href="#projects" class="btn-primary btn-hero-main">
+                    <span>Explore My Products</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+                <button onclick="copyEmail()" class="btn-hero-sec">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <span>antify.web@gmail.com</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Stats Counter Indicators -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-val">3+</div>
+                <div class="stat-lbl">Live Production Apps</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">100%</div>
+                <div class="stat-lbl">Responsive Coverage</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">Fast</div>
+                <div class="stat-lbl">Execution Optimized</div>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- About Core Stack Section -->
+        <section id="about">
+            <div class="about-layout">
+                <div class="about-info">
+                    <span class="section-tag">Platform Mindset</span>
+                    <h3>Powering ideas with elegant architectures.</h3>
+                    <p>I specialize in conceptualizing dynamic applications structured with semantic layouts, clean variables, and lightning-fast loading priorities.</p>
+                </div>
+
+                <div class="grid-features">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
+                        </div>
+                        <h4>Responsive Design</h4>
+                        <p>Fluid, adaptive structural grids working flawlessly on mobiles, tablets, and high-res desktops.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <h4>High Utility Tools</h4>
+                        <p>Clean, local browser-based compression and processing with minimal server latency.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Projects Grid Section -->
+        <section id="projects">
+            <div class="projects-header">
+                <div>
+                    <span class="section-tag">Ecosystem Showcase</span>
+                    <h2 class="section-title">My Live Portals</h2>
+                </div>
+                <p>Fully interactive platforms developed for production environments. Clean codebase and immediate usability.</p>
+            </div>
+
+            <div class="projects-grid">
+
+                <!-- Project Card: AIF -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-artwork artwork-aif">
+                            <span class="artwork-badge">AI ENVIRONMENT</span>
+                            <div class="mock-ui">
+                                <div class="mock-bar">
+                                    <div class="mock-dots">
+                                        <span class="mock-dot" style="background:#ef4444"></span>
+                                        <span class="mock-dot" style="background:#f59e0b"></span>
+                                        <span class="mock-dot" style="background:#10b981"></span>
+                                    </div>
+                                    <span class="mock-url">aif.antify.io</span>
+                                </div>
+                                <div class="mock-content">
+                                    <div class="mock-line-sm"></div>
+                                    <div class="mock-line-md"></div>
+                                    <div class="mock-input"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <h3>AIF - Artificial Future</h3>
+                            <p>A fast, modern portal presenting interactive AI processing capabilities in a streamlined dashboard style.</p>
+                        </div>
+                    </div>
+                    <div style="padding: 0 24px 24px 24px;">
+                        <a href="https://freakngo.github.io/AIF/" target="_blank" rel="noopener" class="btn-primary" style="width: 100%; justify-content: center;">
+                            <span>Visit Platform</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project Card: Compressor -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-artwork artwork-compressor">
+                            <span class="artwork-badge">UTILITY</span>
+                            <div class="mock-ui">
+                                <div class="mock-bar">
+                                    <div class="mock-dots">
+                                        <span class="mock-dot" style="background:#ef4444"></span>
+                                        <span class="mock-dot" style="background:#f59e0b"></span>
+                                        <span class="mock-dot" style="background:#10b981"></span>
+                                    </div>
+                                    <span class="mock-url">compressor.antify</span>
+                                </div>
+                                <div class="mock-content" style="align-items: center; justify-content: center; height: 100%; border: 1px dashed var(--primary); margin-top: 5px; border-radius: 4px;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <h3>Media Compressor</h3>
+                            <p>An offline-first browser optimizer crafted for high quality responsive compressing of images and dynamic media.</p>
+                        </div>
+                    </div>
+                    <div style="padding: 0 24px 24px 24px;">
+                        <a href="https://freakngo.github.io/compressor/" target="_blank" rel="noopener" class="btn-primary" style="width: 100%; justify-content: center;">
+                            <span>Visit Platform</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project Card: Friendz -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-artwork artwork-friendz">
+                            <span class="artwork-badge">SOCIAL</span>
+                            <div class="mock-ui">
+                                <div class="mock-bar">
+                                    <div class="mock-dots">
+                                        <span class="mock-dot" style="background:#ef4444"></span>
+                                        <span class="mock-dot" style="background:#f59e0b"></span>
+                                        <span class="mock-dot" style="background:#10b981"></span>
+                                    </div>
+                                    <span class="mock-url">friendz.antify</span>
+                                </div>
+                                <div class="mock-content" style="gap: 8px;">
+                                    <div style="display:flex; gap: 6px; align-items:center;">
+                                        <div style="width:12px; height:12px; background:#a855f7; border-radius:50%"></div>
+                                        <div class="mock-line-sm" style="width:50%"></div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.05); padding: 4px; border-radius: 4px;">
+                                        <div class="mock-line-md" style="width:90%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <h3>Friendz Hub</h3>
+                            <p>A minimal social community experience built to foster high responsiveness and clean interactions.</p>
+                        </div>
+                    </div>
+                    <div style="padding: 0 24px 24px 24px;">
+                        <a href="https://freakngo.github.io/Friendz/" target="_blank" rel="noopener" class="btn-primary" style="width: 100%; justify-content: center;">
+                            <span>Visit Platform</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Direct Connect Clean Banner Section -->
+        <section id="contact">
+            <div class="connect-banner">
+                <span class="section-tag">Get In Touch</span>
+                <h2>Let's Connect Directly</h2>
+                <p>Have an interesting project proposal or feedback on our apps? Reach out anytime via our primary inbox channel.</p>
+                <button onclick="copyEmail()" class="btn-primary" style="padding: 14px 28px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <span>antify.web@gmail.com</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Area -->
+    <footer>
+        <div class="container footer-content">
+            <a href="#" class="logo">
+                <div class="logo-box">A</div>
+                <span>ANTIFY</span>
+            </a>
+
+            <p class="footer-copyright">
+                &copy; <span id="year">2026</span> Rajveer Nanadikar (Antify). All rights reserved.
+            </p>
+
+            <div class="footer-socials">
+                <a href="https://freakngo.github.io/AIF/" class="social-link" target="_blank" rel="noopener">AIF</a>
+                <a href="https://freakngo.github.io/compressor/" class="social-link" target="_blank" rel="noopener">Comp</a>
+                <a href="https://freakngo.github.io/Friendz/" class="social-link" target="_blank" rel="noopener">Frnd</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Custom Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="toast-content">
+            <h5 id="toast-title">Copied!</h5>
+            <p id="toast-desc">Address written to clipboard.</p>
+        </div>
+    </div>
+
+    <!-- Interface Logic Scripts -->
+    <script>
+        // Update footer year dynamically
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Clipboard Copy Helper
+        function copyEmail() {
+            const email = 'antify.web@gmail.com';
+            
+            const input = document.createElement('input');
+            input.value = email;
+            document.body.appendChild(input);
+            input.select();
+            input.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand('copy');
+                triggerToast("Copied Address!", "antify.web@gmail.com copied to clipboard.");
+            } catch (err) {
+                triggerToast("Copy Failed", "Please highlight and copy manually.");
+            }
+            
+            document.body.removeChild(input);
+        }
+
+        // Animated Toast Controller
+        let toastTimer;
+        function triggerToast(title, desc) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-desc').textContent = desc;
+
+            clearTimeout(toastTimer);
+            toast.classList.add('show');
+
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+```eof
