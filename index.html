@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Antify — Affordable Websites &amp; Free Web Tools by Rajveer Nanadikar</title>
-<meta name="description" content="Antify is Rajveer Nanadikar's studio: affordable, hand-built websites for small businesses, and a growing set of free browser tools — Antify Zip, Antify Compress, and Antify Widget.">
+<meta name="description" content="Antify is Rajveer Nanadikar's studio: affordable, hand-built websites for small businesses, and a growing set of free browser tools — Zip, Compress, Widget, Notes, and Scan.">
 <meta name="theme-color" content="#07070b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307070b'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='34' fill='%23D9AE68' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 
@@ -17,19 +17,32 @@
      TOKENS
      ============================================================ */
   :root{
-    --ink:        #07070b;
-    --ink-2:      #0c0c12;
-    --panel:      #101018;
-    --panel-2:    #15151d;
-    --line:       rgba(237,234,227,0.09);
-    --line-strong:rgba(237,234,227,0.16);
-    --text:       #edeae3;
-    --muted:      #9b978f;
-    --muted-2:    #6f6c66;
-    --gold:       #d9ae68;
-    --gold-bright:#f0c989;
-    --cyan:       #56dbe0;
-    --violet:     #8b7ef2;
+    --bg:         #F7F6F2;
+    --bg-2:       #EFEDE5;
+    --panel:      #FFFFFF;
+    --panel-2:    #FCFBF8;
+    --line:       rgba(20,20,26,0.10);
+    --line-strong:rgba(20,20,26,0.18);
+    --text:       #16171D;
+    --muted:      #5B5D68;
+    --muted-2:    #8B8D96;
+
+    /* legacy aliases so existing rules referencing --ink keep working as the new light bg */
+    --ink:        var(--bg);
+    --ink-2:      var(--bg-2);
+
+    --gold:       #A9793A;
+    --gold-bright:#C9944C;
+    --cyan:       #1FA0A6;
+    --violet:     #6F5DD9;
+
+    /* intro is a separate, intentionally dark cinematic moment — its own fixed palette */
+    --intro-bg:      #050507;
+    --intro-text:    #F4F0E4;
+    --intro-muted:   #B8B3A6;
+    --intro-gold:    #E3B569;
+    --intro-cyan:    #56DBE0;
+    --intro-violet:  #8B7EF2;
 
     --font-display: 'Unbounded', 'Segoe UI', sans-serif;
     --font-body: 'Manrope', 'Segoe UI', sans-serif;
@@ -143,22 +156,16 @@
   .btn-tool:hover svg{ transform:translate(3px,-3px); }
 
   /* ============================================================
-     FILM GRAIN + VIGNETTE (ambient texture, whole site)
+     FILM GRAIN (ambient paper texture, whole site)
      ============================================================ */
   .grain{
     position:fixed; inset:0;
     z-index:40;
     pointer-events:none;
-    opacity:.05;
-    mix-blend-mode:overlay;
+    opacity:.035;
+    mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size:220px 220px;
-  }
-  .vignette{
-    position:fixed; inset:0;
-    z-index:39;
-    pointer-events:none;
-    background:radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,.55) 100%);
   }
 
   /* Letterbox bars — cinematic aspect-ratio frame, persistent, decorative */
@@ -170,8 +177,8 @@
     pointer-events:none;
     transition:height .4s var(--ease-cine);
   }
-  .letterbox.top{ top:0; border-bottom:1px solid rgba(217,174,104,0.18); }
-  .letterbox.bottom{ bottom:0; border-top:1px solid rgba(217,174,104,0.18); }
+  .letterbox.top{ top:0; border-bottom:1px solid rgba(227,181,105,0.3); }
+  .letterbox.bottom{ bottom:0; border-top:1px solid rgba(227,181,105,0.3); }
 
   /* ============================================================
      CINEMATIC INTRO
@@ -179,7 +186,7 @@
   #intro{
     position:fixed; inset:0;
     z-index:200;
-    background:#050507;
+    background:var(--intro-bg);
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     overflow:hidden;
     transition:opacity .9s var(--ease-cine), filter .9s var(--ease-cine);
@@ -192,9 +199,9 @@
   #intro.gone{ display:none; }
 
   .bokeh{ position:absolute; border-radius:50%; filter:blur(40px); opacity:.35; animation:drift 14s ease-in-out infinite; }
-  .bokeh.b1{ width:280px; height:280px; background:var(--gold); top:12%; left:8%; animation-duration:16s; }
-  .bokeh.b2{ width:220px; height:220px; background:var(--violet); bottom:10%; right:12%; animation-duration:19s; animation-delay:-4s; }
-  .bokeh.b3{ width:180px; height:180px; background:var(--cyan); top:55%; left:70%; animation-duration:13s; animation-delay:-8s; }
+  .bokeh.b1{ width:280px; height:280px; background:var(--intro-gold); top:12%; left:8%; animation-duration:16s; }
+  .bokeh.b2{ width:220px; height:220px; background:var(--intro-violet); bottom:10%; right:12%; animation-duration:19s; animation-delay:-4s; }
+  .bokeh.b3{ width:180px; height:180px; background:var(--intro-cyan); top:55%; left:70%; animation-duration:13s; animation-delay:-8s; }
   @keyframes drift{
     0%,100%{ transform:translate(0,0) scale(1); }
     50%{ transform:translate(30px,-24px) scale(1.15); }
@@ -211,8 +218,8 @@
     font-size:clamp(2.8rem, 13vw, 8.2rem);
     letter-spacing:.04em;
     line-height:1;
-    color:var(--text);
-    text-shadow:0 0 60px rgba(217,174,104,.25);
+    color:var(--intro-text);
+    text-shadow:0 0 60px rgba(227,181,105,.3);
   }
   .intro-word span{
     display:inline-block;
@@ -245,7 +252,7 @@
   }
 
   .intro-rule{
-    width:0; height:1px; background:var(--gold);
+    width:0; height:1px; background:var(--intro-gold);
     margin:1.6rem auto 1.1rem;
     animation:ruleIn .9s var(--ease-cine) forwards;
     animation-delay:1.5s;
@@ -255,7 +262,7 @@
   .intro-tag{
     font-size:.95rem;
     letter-spacing:.03em;
-    color:var(--muted);
+    color:var(--intro-muted);
     opacity:0;
     transform:translateY(10px);
     animation:tagIn .8s var(--ease-cine) forwards;
@@ -268,14 +275,14 @@
     bottom:clamp(20px, 5vh, 48px);
     right:clamp(20px, 5vw, 48px);
     background:none; border:none;
-    color:var(--muted);
+    color:var(--intro-muted);
     font-size:.85rem;
     display:flex; align-items:center; gap:.5rem;
     opacity:0;
     animation:tagIn .8s var(--ease-cine) forwards;
     animation-delay:2.2s;
   }
-  .intro-skip:hover{ color:var(--gold-bright); }
+  .intro-skip:hover{ color:var(--intro-gold); }
 
   @media (prefers-reduced-motion: reduce){
     .intro-word span{ animation:none; opacity:1; transform:none; }
@@ -291,7 +298,7 @@
   header{
     position:fixed; top:var(--bar-h); left:0; right:0;
     z-index:80;
-    background:linear-gradient(to bottom, rgba(7,7,11,.92), rgba(7,7,11,0));
+    background:linear-gradient(to bottom, rgba(247,246,242,.94), rgba(247,246,242,0));
     padding:1.1rem 0;
     transition:background .4s;
   }
@@ -428,7 +435,7 @@
   .hero h1{
     font-size:var(--fs-hero);
     line-height:1.06;
-    background:linear-gradient(180deg, #fff, #cfc9bd 70%, var(--gold) 140%);
+    background:linear-gradient(180deg, #16171d 0%, #4a3c22 65%, var(--gold) 130%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
   .hero-sub{
@@ -466,7 +473,8 @@
     grid-template-columns:repeat(3, 1fr);
     gap:1.5rem;
   }
-  @media (max-width:920px){ .tool-grid{ grid-template-columns:1fr; } }
+  @media (max-width:980px){ .tool-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:600px){ .tool-grid{ grid-template-columns:1fr; } }
 
   .tool-card{
     --accent: var(--gold);
@@ -493,8 +501,6 @@
     box-shadow:0 24px 50px -20px color-mix(in srgb, var(--accent) 35%, transparent);
   }
   .tool-card:hover::before{ transform:scaleX(1); }
-  .tool-card.c-cyan{ --accent: var(--cyan); }
-  .tool-card.c-violet{ --accent: var(--violet); }
 
   .tool-icon{
     width:52px; height:52px;
@@ -598,17 +604,17 @@
     z-index:2;
     display:flex; align-items:center; gap:.6rem;
   }
-  .about-plate .rule{ width:16px; height:1px; background:var(--gold); flex-shrink:0; }
+  .about-plate .rule{ width:16px; height:1px; background:var(--intro-gold); flex-shrink:0; }
   .about-plate-text{ display:flex; flex-direction:column; }
   .about-plate-name{
     font-family:var(--font-display);
     font-size:.95rem; font-weight:600;
-    color:var(--text);
+    color:#F4F0E4;
     letter-spacing:.01em;
   }
   .about-plate-role{
     font-size:.72rem;
-    color:var(--muted);
+    color:rgba(244,240,228,.72);
     margin-top:.15rem;
   }
 
@@ -650,7 +656,7 @@
     display:flex; justify-content:space-between; align-items:center;
     flex-wrap:wrap; gap:1rem;
   }
-  .foot-links{ display:flex; gap:1.6rem; }
+  .foot-links{ display:flex; gap:1.4rem; flex-wrap:wrap; }
   .foot-links a{ color:var(--muted); font-size:.9rem; transition:color .3s; }
   .foot-links a:hover{ color:var(--gold-bright); }
   .foot-copy{ color:var(--muted-2); font-size:.85rem; }
@@ -677,7 +683,7 @@
   }
 
   header.scrolled{
-    background:rgba(7,7,11,.86);
+    background:rgba(247,246,242,.88);
     backdrop-filter:blur(10px);
     -webkit-backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
@@ -706,7 +712,6 @@
 </div>
 
 <div class="grain" aria-hidden="true"></div>
-<div class="vignette" aria-hidden="true"></div>
 <div class="letterbox top" aria-hidden="true"></div>
 <div class="letterbox bottom" aria-hidden="true"></div>
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
@@ -786,7 +791,7 @@
       <div class="section-head reveal">
         <span class="eyebrow">Free, forever</span>
         <h2>Tools built in the open</h2>
-        <p>Three browser-based utilities I maintain for free — no signup walls, no watermarks, no "pro" tier hiding the feature you need.</p>
+        <p>A growing shelf of browser-based utilities I maintain for free — no signup walls, no watermarks, no "pro" tier hiding the feature you need.</p>
       </div>
 
       <div class="tool-grid">
@@ -804,7 +809,7 @@
           </a>
         </div>
 
-        <div class="tool-card c-cyan reveal">
+        <div class="tool-card reveal">
           <span class="tool-badge">Free</span>
           <div class="tool-icon">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 3v4a1 1 0 01-1 1H3M16 3v4a1 1 0 001 1h4M8 21v-4a1 1 0 00-1-1H3M16 21v-4a1 1 0 011-1h4"/></svg>
@@ -817,7 +822,7 @@
           </a>
         </div>
 
-        <div class="tool-card c-violet reveal">
+        <div class="tool-card reveal">
           <span class="tool-badge">Free</span>
           <div class="tool-icon">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>
@@ -826,6 +831,32 @@
           <p>Generate lightweight, drop-in widgets you can paste into any website in minutes. No framework, no build step — just a snippet that works wherever you put it.</p>
           <a href="https://antifywidget.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-tool">
             Launch Antify Widget
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </a>
+        </div>
+
+        <div class="tool-card reveal">
+          <span class="tool-badge">Free</span>
+          <div class="tool-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 3h8l4 4v14a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M15 3v4h4M9 12h6M9 16h6M9 8h2"/></svg>
+          </div>
+          <h3>Antify Notes</h3>
+          <p>A clean, distraction-free space to write and organize notes in your browser. Nothing to install, nothing syncing to an account you didn't ask for — just a place to think.</p>
+          <a href="https://antifynotes.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-tool">
+            Launch Antify Notes
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </a>
+        </div>
+
+        <div class="tool-card reveal">
+          <span class="tool-badge">Free</span>
+          <div class="tool-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3M3 12h18"/></svg>
+          </div>
+          <h3>Antify Scan</h3>
+          <p>Turn a photo or file into a clean, aligned scan straight from your browser — crop, sharpen, and export as an image or PDF. No app to install, no watermark on the result.</p>
+          <a href="https://antifyscan.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-tool">
+            Launch Antify Scan
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
           </a>
         </div>
@@ -918,10 +949,10 @@
         <h2>Let's build something</h2>
         <p>Have a business that needs a website, or feedback on one of the tools? I read every message myself.</p>
         <div class="contact-actions">
-          <a href="mailto:hello@antify.dev" class="btn btn-primary">Email Antify</a>
+          <a href="mailto:antify.web@gmail.com" class="btn btn-primary">Email Antify</a>
           <a href="#tools" class="btn btn-ghost">Back to tools</a>
         </div>
-        <p class="contact-note">Usually replying within 1–2 business days.</p>
+        <p class="contact-note">antify.web@gmail.com — usually replying within 1–2 business days.</p>
       </div>
     </div>
   </section>
@@ -935,6 +966,8 @@
       <a href="https://antifyzip.vercel.app" target="_blank" rel="noopener noreferrer">Zip</a>
       <a href="https://antifycompress.vercel.app" target="_blank" rel="noopener noreferrer">Compress</a>
       <a href="https://antifywidget.vercel.app" target="_blank" rel="noopener noreferrer">Widget</a>
+      <a href="https://antifynotes.vercel.app" target="_blank" rel="noopener noreferrer">Notes</a>
+      <a href="https://antifyscan.vercel.app" target="_blank" rel="noopener noreferrer">Scan</a>
       <a href="#contact">Contact</a>
     </div>
     <p class="foot-copy">&copy; <span id="year"></span> Antify. Built by Rajveer Nanadikar.</p>
@@ -952,116 +985,154 @@
   var body = document.body;
 
   /* ---------- year ---------- */
-  document.getElementById('year').textContent = new Date().getFullYear();
+  try{
+    document.getElementById('year').textContent = new Date().getFullYear();
+  }catch(e){}
 
   /* ---------- intro sequence ---------- */
   var intro = document.getElementById('intro');
-  var introDone = false;
+  var introDone = true; /* default true so body never stays locked if this block fails */
+  try{
+    introDone = false;
+    var introTimer;
 
-  function endIntro(){
-    if(introDone) return;
-    introDone = true;
-    intro.classList.add('hide');
-    body.classList.remove('locked');
-    setTimeout(function(){
-      intro.classList.add('gone');
-      intro.setAttribute('aria-hidden','true');
-    }, 950);
-  }
+    var endIntro = function(){
+      if(introDone) return;
+      introDone = true;
+      intro.classList.add('hide');
+      body.classList.remove('locked');
+      setTimeout(function(){
+        intro.classList.add('gone');
+        intro.setAttribute('aria-hidden','true');
+      }, 950);
+    };
 
-  var introTimer = setTimeout(endIntro, reduced ? 400 : 3400);
+    introTimer = setTimeout(endIntro, reduced ? 400 : 3400);
 
-  intro.addEventListener('click', function(){ clearTimeout(introTimer); endIntro(); });
-  document.getElementById('skipIntro').addEventListener('click', function(e){
-    e.stopPropagation();
-    clearTimeout(introTimer); endIntro();
-  });
-  window.addEventListener('keydown', function(e){
-    if(!introDone && (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape')){
+    intro.addEventListener('click', function(){ clearTimeout(introTimer); endIntro(); });
+    document.getElementById('skipIntro').addEventListener('click', function(e){
+      e.stopPropagation();
       clearTimeout(introTimer); endIntro();
-    }
-  });
+    });
+    window.addEventListener('keydown', function(e){
+      if(!introDone && (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape')){
+        clearTimeout(introTimer); endIntro();
+      }
+    });
+  }catch(e){
+    /* if the intro sequence itself is broken, don't trap the visitor behind it */
+    if(intro){ intro.classList.add('hide','gone'); }
+    body.classList.remove('locked');
+  }
 
   /* ---------- mobile menu ---------- */
-  var burger = document.getElementById('burgerBtn');
-  var menu = document.getElementById('mobileMenu');
-  var closeMenu = document.getElementById('closeMenu');
+  try{
+    var burger = document.getElementById('burgerBtn');
+    var menu = document.getElementById('mobileMenu');
+    var closeMenu = document.getElementById('closeMenu');
 
-  function openMenu(){ menu.classList.add('open'); burger.setAttribute('aria-expanded','true'); }
-  function closeMenuFn(){ menu.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+    var openMenu = function(){ menu.classList.add('open'); burger.setAttribute('aria-expanded','true'); };
+    var closeMenuFn = function(){ menu.classList.remove('open'); burger.setAttribute('aria-expanded','false'); };
 
-  burger.addEventListener('click', openMenu);
-  closeMenu.addEventListener('click', closeMenuFn);
-  menu.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', closeMenuFn);
-  });
+    burger.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFn);
+    menu.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', closeMenuFn);
+    });
+  }catch(e){}
 
   /* ---------- hero cursor spotlight ---------- */
-  var hero = document.querySelector('.hero');
-  if(hero && !reduced && mq('(hover: hover)')){
-    hero.addEventListener('mousemove', function(e){
-      var r = hero.getBoundingClientRect();
-      hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-      hero.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
-    });
-  }
-
-  /* ---------- scroll reveal ---------- */
-  var revealEls = document.querySelectorAll('.reveal');
-  if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('in');
-          io.unobserve(entry.target);
-        }
+  try{
+    var hero = document.querySelector('.hero');
+    if(hero && !reduced && mq('(hover: hover)')){
+      hero.addEventListener('mousemove', function(e){
+        var r = hero.getBoundingClientRect();
+        hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        hero.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
       });
-    }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
-    revealEls.forEach(function(el){ io.observe(el); });
-  } else {
-    revealEls.forEach(function(el){ el.classList.add('in'); });
+    }
+  }catch(e){}
+
+  /* ---------- scroll reveal ----------
+     Deliberately NOT IntersectionObserver-only: some in-app/WebView browsers
+     handle it inconsistently, which previously left whole sections stuck at
+     opacity:0. This uses plain getBoundingClientRect + scroll/resize checks,
+     runs an immediate check on load, and has a hard timeout safety net so
+     content can never stay invisible no matter what. */
+  try{
+    var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    function revealCheck(){
+      var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+      for(var i=0;i<revealEls.length;i++){
+        var el = revealEls[i];
+        if(el.classList.contains('in')) continue;
+        var rect = el.getBoundingClientRect();
+        if(rect.top < vh * 0.92 && rect.bottom > 0){
+          el.classList.add('in');
+        }
+      }
+    }
+    window.addEventListener('scroll', revealCheck, { passive:true });
+    window.addEventListener('resize', revealCheck);
+    revealCheck();
+    setTimeout(revealCheck, 300);
+    setTimeout(revealCheck, 1200);
+    /* absolute safety net: guarantee everything is visible within a few seconds */
+    setTimeout(function(){
+      revealEls.forEach(function(el){ el.classList.add('in'); });
+    }, 5000);
+  }catch(e){
+    /* if anything above failed, force every section visible immediately */
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
   }
 
   /* ---------- reel side-nav + active link tracking ---------- */
-  var sections = ['home','tools','services','about','contact'].map(function(id){
-    return document.getElementById(id);
-  });
-  var reelBtns = document.querySelectorAll('.reel-nav button');
-  var navLinks = document.querySelectorAll('.nav-links a');
-
-  reelBtns.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var target = document.querySelector(btn.dataset.target);
-      if(target) target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+  try{
+    var sections = ['home','tools','services','about','contact'].map(function(id){
+      return document.getElementById(id);
     });
-  });
+    var reelBtns = document.querySelectorAll('.reel-nav button');
+    var navLinks = document.querySelectorAll('.nav-links a');
 
-  if('IntersectionObserver' in window){
-    var navIo = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          var id = '#' + entry.target.id;
-          reelBtns.forEach(function(b){ b.classList.toggle('active', b.dataset.target === id); });
-          navLinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === id); });
-        }
+    reelBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var target = document.querySelector(btn.dataset.target);
+        if(target) target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
       });
-    }, { threshold: 0.5 });
-    sections.forEach(function(s){ if(s) navIo.observe(s); });
-  }
+    });
+
+    function updateActiveNav(){
+      var probe = window.scrollY + window.innerHeight * 0.4;
+      var current = sections[0];
+      sections.forEach(function(s){
+        if(s && s.offsetTop <= probe) current = s;
+      });
+      if(current){
+        var id = '#' + current.id;
+        reelBtns.forEach(function(b){ b.classList.toggle('active', b.dataset.target === id); });
+        navLinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === id); });
+      }
+    }
+    window.addEventListener('scroll', updateActiveNav, { passive:true });
+    window.addEventListener('resize', updateActiveNav);
+    updateActiveNav();
+  }catch(e){}
 
   /* ---------- scroll progress + header background on scroll ---------- */
-  var progress = document.getElementById('scrollProgress');
-  var headerEl = document.querySelector('header');
-  function onScroll(){
-    var doc = document.documentElement;
-    var scrollTop = doc.scrollTop || document.body.scrollTop;
-    var height = doc.scrollHeight - doc.clientHeight;
-    var pct = height > 0 ? (scrollTop / height) * 100 : 0;
-    if(progress) progress.style.width = pct + '%';
-    if(headerEl) headerEl.classList.toggle('scrolled', scrollTop > 8);
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  try{
+    var progress = document.getElementById('scrollProgress');
+    var headerEl = document.querySelector('header');
+    function onScroll(){
+      var doc = document.documentElement;
+      var scrollTop = doc.scrollTop || document.body.scrollTop;
+      var height = doc.scrollHeight - doc.clientHeight;
+      var pct = height > 0 ? (scrollTop / height) * 100 : 0;
+      if(progress) progress.style.width = pct + '%';
+      if(headerEl) headerEl.classList.toggle('scrolled', scrollTop > 8);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }catch(e){}
 })();
 </script>
 
