@@ -36,14 +36,6 @@
     --cyan:       #1FA0A6;
     --violet:     #6F5DD9;
 
-    /* intro is a separate, intentionally dark cinematic moment — its own fixed palette */
-    --intro-bg:      #050507;
-    --intro-text:    #F4F0E4;
-    --intro-muted:   #B8B3A6;
-    --intro-gold:    #E3B569;
-    --intro-cyan:    #56DBE0;
-    --intro-violet:  #8B7EF2;
-
     --font-display: 'Unbounded', 'Segoe UI', sans-serif;
     --font-body: 'Manrope', 'Segoe UI', sans-serif;
 
@@ -78,7 +70,6 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  body.locked{ overflow:hidden; height:100%; }
 
   img,svg{ display:block; max-width:100%; }
   a{ color:inherit; text-decoration:none; }
@@ -125,9 +116,20 @@
     white-space:nowrap;
   }
   .btn-primary{
+    position:relative;
+    overflow:hidden;
     background:linear-gradient(135deg, var(--gold-bright), var(--gold) 70%);
     color:#1a1206;
   }
+  .btn-primary::after{
+    content:"";
+    position:absolute; top:0; left:-60%;
+    width:35%; height:100%;
+    background:linear-gradient(120deg, transparent, rgba(255,255,255,.6), transparent);
+    transform:skewX(-20deg);
+    transition:left .7s var(--ease-cine);
+  }
+  .btn-primary:hover::after{ left:130%; }
   .btn-primary:hover{
     transform:translateY(-2px);
     box-shadow:0 14px 30px -10px rgba(217,174,104,0.45);
@@ -179,118 +181,6 @@
   }
   .letterbox.top{ top:0; border-bottom:1px solid rgba(227,181,105,0.3); }
   .letterbox.bottom{ bottom:0; border-top:1px solid rgba(227,181,105,0.3); }
-
-  /* ============================================================
-     CINEMATIC INTRO
-     ============================================================ */
-  #intro{
-    position:fixed; inset:0;
-    z-index:200;
-    background:var(--intro-bg);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    overflow:hidden;
-    transition:opacity .9s var(--ease-cine), filter .9s var(--ease-cine);
-  }
-  #intro.hide{
-    opacity:0;
-    filter:blur(6px);
-    pointer-events:none;
-  }
-  #intro.gone{ display:none; }
-
-  .bokeh{ position:absolute; border-radius:50%; filter:blur(40px); opacity:.35; animation:drift 14s ease-in-out infinite; }
-  .bokeh.b1{ width:280px; height:280px; background:var(--intro-gold); top:12%; left:8%; animation-duration:16s; }
-  .bokeh.b2{ width:220px; height:220px; background:var(--intro-violet); bottom:10%; right:12%; animation-duration:19s; animation-delay:-4s; }
-  .bokeh.b3{ width:180px; height:180px; background:var(--intro-cyan); top:55%; left:70%; animation-duration:13s; animation-delay:-8s; }
-  @keyframes drift{
-    0%,100%{ transform:translate(0,0) scale(1); }
-    50%{ transform:translate(30px,-24px) scale(1.15); }
-  }
-
-  .intro-stage{ position:relative; text-align:center; padding:0 1.2rem; }
-
-  .intro-word{
-    display:flex;
-    justify-content:center;
-    position:relative;
-    font-family:var(--font-display);
-    font-weight:900;
-    font-size:clamp(2.8rem, 13vw, 8.2rem);
-    letter-spacing:.04em;
-    line-height:1;
-    color:var(--intro-text);
-    text-shadow:0 0 60px rgba(227,181,105,.3);
-  }
-  .intro-word span{
-    display:inline-block;
-    opacity:0;
-    transform:translateY(48px) scale(.85);
-    animation:letterIn .9s var(--ease-cine) forwards;
-    animation-delay:calc(var(--i) * 90ms + 200ms);
-  }
-  @keyframes letterIn{
-    0%{ opacity:0; transform:translateY(48px) scale(.85); filter:blur(6px); }
-    60%{ filter:blur(0); }
-    100%{ opacity:1; transform:translateY(0) scale(1); }
-  }
-
-  .intro-sweep{
-    position:absolute; top:-20%; left:-40%;
-    width:40%; height:140%;
-    background:linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
-    mix-blend-mode:overlay;
-    transform:skewX(-18deg);
-    animation:sweep 1.6s var(--ease-cine) 1;
-    animation-delay:1.05s;
-    opacity:0;
-  }
-  @keyframes sweep{
-    0%{ left:-40%; opacity:0; }
-    12%{ opacity:1; }
-    55%{ opacity:.9; }
-    100%{ left:120%; opacity:0; }
-  }
-
-  .intro-rule{
-    width:0; height:1px; background:var(--intro-gold);
-    margin:1.6rem auto 1.1rem;
-    animation:ruleIn .9s var(--ease-cine) forwards;
-    animation-delay:1.5s;
-  }
-  @keyframes ruleIn{ to{ width:120px; } }
-
-  .intro-tag{
-    font-size:.95rem;
-    letter-spacing:.03em;
-    color:var(--intro-muted);
-    opacity:0;
-    transform:translateY(10px);
-    animation:tagIn .8s var(--ease-cine) forwards;
-    animation-delay:1.65s;
-  }
-  @keyframes tagIn{ to{ opacity:1; transform:translateY(0); } }
-
-  .intro-skip{
-    position:absolute;
-    bottom:clamp(20px, 5vh, 48px);
-    right:clamp(20px, 5vw, 48px);
-    background:none; border:none;
-    color:var(--intro-muted);
-    font-size:.85rem;
-    display:flex; align-items:center; gap:.5rem;
-    opacity:0;
-    animation:tagIn .8s var(--ease-cine) forwards;
-    animation-delay:2.2s;
-  }
-  .intro-skip:hover{ color:var(--intro-gold); }
-
-  @media (prefers-reduced-motion: reduce){
-    .intro-word span{ animation:none; opacity:1; transform:none; }
-    .intro-sweep{ animation:none; opacity:0; }
-    .intro-rule{ animation:none; width:120px; }
-    .intro-tag,.intro-skip{ animation:none; opacity:1; transform:none; }
-    .bokeh{ animation:none; }
-  }
 
   /* ============================================================
      HEADER / NAV
@@ -388,8 +278,16 @@
   .reel-nav button.active{
     background:var(--gold); border-color:var(--gold);
     box-shadow:0 0 0 3px rgba(217,174,104,.18);
+    animation:dotPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes dotPulse{
+    0%,100%{ box-shadow:0 0 0 3px rgba(217,174,104,.18); }
+    50%{ box-shadow:0 0 0 6px rgba(217,174,104,.10); }
   }
   @media (max-width:1080px){ .reel-nav{ display:none; } }
+  @media (prefers-reduced-motion: reduce){
+    .reel-nav button.active{ animation:none; }
+  }
 
   /* ============================================================
      REVEAL ON SCROLL (letterbox wipe reveal)
@@ -405,6 +303,26 @@
   }
   @media (prefers-reduced-motion: reduce){
     .reveal{ opacity:1; clip-path:none; transition:none; }
+    .process-step{ opacity:1; transform:none; transition:none; }
+  }
+
+  /* ============================================================
+     HERO ENTRANCE — the page's opening moment, now that there's no intro
+     ============================================================ */
+  @keyframes heroUp{
+    from{ opacity:0; transform:translateY(26px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .hero h1, .hero-sub, .hero-actions, .pillars{
+    opacity:0;
+    animation:heroUp .9s var(--ease-cine) forwards;
+  }
+  .hero h1{ animation-delay:.05s; }
+  .hero-sub{ animation-delay:.22s; }
+  .hero-actions{ animation-delay:.38s; }
+  .pillars{ animation-delay:.54s; }
+  @media (prefers-reduced-motion: reduce){
+    .hero h1, .hero-sub, .hero-actions, .pillars{ animation:none; opacity:1; }
   }
 
   /* ============================================================
@@ -457,6 +375,38 @@
   .pillar svg{ flex-shrink:0; color:var(--gold); }
 
   /* ============================================================
+     MARQUEE — continuous motion strip, the site's ongoing pulse
+     ============================================================ */
+  .marquee{
+    overflow:hidden;
+    background:var(--panel);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:1rem 0;
+  }
+  .marquee-track{
+    display:flex;
+    align-items:center;
+    width:max-content;
+    gap:2.2rem;
+    white-space:nowrap;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:.98rem;
+    color:var(--muted);
+    animation:marqueeScroll 28s linear infinite;
+  }
+  .marquee:hover .marquee-track{ animation-play-state:paused; }
+  .marquee-dot{ color:var(--gold); font-size:.6rem; }
+  @keyframes marqueeScroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{ animation:none; }
+  }
+
+  /* ============================================================
      SECTION SHELL
      ============================================================ */
   section{ position:relative; padding:6.5rem 0; }
@@ -476,6 +426,12 @@
   @media (max-width:980px){ .tool-grid{ grid-template-columns:repeat(2, 1fr); } }
   @media (max-width:600px){ .tool-grid{ grid-template-columns:1fr; } }
 
+  .app-grid{
+    grid-template-columns:repeat(2, 1fr);
+    max-width:760px;
+  }
+  @media (max-width:640px){ .app-grid{ grid-template-columns:1fr; } }
+
   .tool-card{
     --accent: var(--gold);
     background:var(--panel);
@@ -485,8 +441,11 @@
     display:flex; flex-direction:column;
     position:relative;
     overflow:hidden;
-    transition:border-color .4s, transform .4s var(--ease-cine), box-shadow .4s;
+    transition:opacity .9s var(--ease-cine), clip-path 1s var(--ease-cine), border-color .4s, transform .4s var(--ease-cine), box-shadow .4s;
   }
+  .tool-grid > .tool-card:nth-child(1){ transition-delay:0s, 0s, 0s, 0s, 0s; }
+  .tool-grid > .tool-card:nth-child(2){ transition-delay:.12s, .12s, 0s, 0s, 0s; }
+  .tool-grid > .tool-card:nth-child(3){ transition-delay:.24s, .24s, 0s, 0s, 0s; }
   .tool-card::before{
     content:"";
     position:absolute; top:0; left:0; right:0; height:2px;
@@ -510,6 +469,10 @@
     background:color-mix(in srgb, var(--accent) 14%, transparent);
     color:var(--accent);
     margin-bottom:1.6rem;
+    transition:transform .45s var(--ease-cine);
+  }
+  .tool-card:hover .tool-icon{
+    transform:scale(1.08) rotate(-4deg);
   }
   .tool-badge{
     position:absolute; top:2rem; right:2rem;
@@ -542,7 +505,15 @@
     display:flex; gap:1.4rem;
     padding:1.5rem 0;
     border-bottom:1px solid var(--line);
+    opacity:0;
+    transform:translateX(-16px);
+    transition:opacity .6s var(--ease-cine), transform .6s var(--ease-cine);
   }
+  .process.in .process-step{ opacity:1; transform:translateX(0); }
+  .process.in .process-step:nth-child(1){ transition-delay:.05s; }
+  .process.in .process-step:nth-child(2){ transition-delay:.18s; }
+  .process.in .process-step:nth-child(3){ transition-delay:.31s; }
+  .process.in .process-step:nth-child(4){ transition-delay:.44s; }
   .process-step:first-child{ padding-top:0; }
   .process-step:last-child{ border-bottom:none; padding-bottom:0; }
   .process-num{
@@ -574,7 +545,7 @@
     overflow:hidden;
     background:var(--panel);
     max-width:380px;
-    transition:border-color .4s;
+    transition:opacity .9s var(--ease-cine), clip-path 1s var(--ease-cine), border-color .4s;
   }
   .about-mark:hover{ border-color:var(--gold); }
   .about-mark img{
@@ -604,7 +575,7 @@
     z-index:2;
     display:flex; align-items:center; gap:.6rem;
   }
-  .about-plate .rule{ width:16px; height:1px; background:var(--intro-gold); flex-shrink:0; }
+  .about-plate .rule{ width:16px; height:1px; background:#E3B569; flex-shrink:0; }
   .about-plate-text{ display:flex; flex-direction:column; }
   .about-plate-name{
     font-family:var(--font-display);
@@ -690,31 +661,13 @@
   }
 </style>
 </head>
-<body class="locked">
-
-<!-- ===================== CINEMATIC INTRO ===================== -->
-<div id="intro" role="dialog" aria-label="Antify intro animation">
-  <div class="bokeh b1"></div>
-  <div class="bokeh b2"></div>
-  <div class="bokeh b3"></div>
-  <div class="intro-stage">
-    <div class="intro-word" aria-hidden="true">
-      <span style="--i:0">A</span><span style="--i:1">n</span><span style="--i:2">t</span><span style="--i:3">i</span><span style="--i:4">f</span><span style="--i:5">y</span>
-      <span class="intro-sweep"></span>
-    </div>
-    <div class="intro-rule" aria-hidden="true"></div>
-    <p class="intro-tag">Web design &amp; free tools, by Rajveer Nanadikar</p>
-  </div>
-  <button type="button" class="intro-skip" id="skipIntro" aria-label="Skip intro animation">
-    Skip
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4l10 8-10 8V4z"/><path d="M18 4v16"/></svg>
-  </button>
-</div>
+<body>
 
 <div class="grain" aria-hidden="true"></div>
 <div class="letterbox top" aria-hidden="true"></div>
 <div class="letterbox bottom" aria-hidden="true"></div>
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
 
 <!-- ===================== HEADER ===================== -->
 <header>
@@ -722,7 +675,8 @@
     <a href="#home" class="logo">Anti<span>fy</span></a>
     <div class="nav-links">
       <a href="#home">Home</a>
-      <a href="#tools">Tools</a>
+      <a href="#tools">Web Tools</a>
+      <a href="#apps">Apps</a>
       <a href="#services">Services</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -737,7 +691,8 @@
 <div class="mobile-menu" id="mobileMenu">
   <button type="button" class="close" id="closeMenu" aria-label="Close menu">&times;</button>
   <a href="#home">Home</a>
-  <a href="#tools">Tools</a>
+  <a href="#tools">Web Tools</a>
+  <a href="#apps">Apps</a>
   <a href="#services">Services</a>
   <a href="#about">About</a>
   <a href="#contact">Contact</a>
@@ -746,7 +701,8 @@
 <!-- ===================== REEL SIDE NAV ===================== -->
 <nav class="reel-nav" aria-label="Section navigation">
   <button type="button" data-target="#home" class="active" aria-label="Home"></button>
-  <button type="button" data-target="#tools" aria-label="Tools"></button>
+  <button type="button" data-target="#tools" aria-label="Web Tools"></button>
+  <button type="button" data-target="#apps" aria-label="Apps"></button>
   <button type="button" data-target="#services" aria-label="Services"></button>
   <button type="button" data-target="#about" aria-label="About"></button>
   <button type="button" data-target="#contact" aria-label="Contact"></button>
@@ -757,18 +713,18 @@
   <!-- ===================== HERO ===================== -->
   <section class="hero" id="home">
     <div class="wrap hero-inner">
-      <h1 class="reveal in">Affordable websites for real businesses. Free tools for everyone else.</h1>
-      <p class="hero-sub reveal in">
+      <h1>Affordable websites for real businesses. Free tools for everyone else.</h1>
+      <p class="hero-sub">
         I'm <b>Rajveer Nanadikar</b>, and Antify is the studio I run to do both:
         hand-built, budget-friendly websites for small businesses, and a growing shelf
         of free browser tools that just do their job — no accounts, no upsells.
       </p>
-      <div class="hero-actions reveal in">
+      <div class="hero-actions">
         <a href="#tools" class="btn btn-primary">Explore free tools</a>
         <a href="#services" class="btn btn-ghost">Get a website</a>
       </div>
 
-      <div class="pillars reveal in">
+      <div class="pillars">
         <div class="pillar">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
           Priced for small budgets
@@ -785,13 +741,27 @@
     </div>
   </section>
 
-  <!-- ===================== TOOLS ===================== -->
+  <!-- ===================== MARQUEE ===================== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Affordable Websites</span><span class="marquee-dot">&#9670;</span>
+      <span>Free Web Tools</span><span class="marquee-dot">&#9670;</span>
+      <span>Built by Rajveer Nanadikar</span><span class="marquee-dot">&#9670;</span>
+      <span>Antify</span><span class="marquee-dot">&#9670;</span>
+      <span>Affordable Websites</span><span class="marquee-dot">&#9670;</span>
+      <span>Free Web Tools</span><span class="marquee-dot">&#9670;</span>
+      <span>Built by Rajveer Nanadikar</span><span class="marquee-dot">&#9670;</span>
+      <span>Antify</span><span class="marquee-dot">&#9670;</span>
+    </div>
+  </div>
+
+  <!-- ===================== MY WEB TOOLS ===================== -->
   <section id="tools" class="alt-bg">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Free, forever</span>
-        <h2>Tools built in the open</h2>
-        <p>A growing shelf of browser-based utilities I maintain for free — no signup walls, no watermarks, no "pro" tier hiding the feature you need.</p>
+        <h2>My Web Tools</h2>
+        <p>Three fast, browser-based utilities I maintain for free — no signup walls, no watermarks, no "pro" tier hiding the feature you need.</p>
       </div>
 
       <div class="tool-grid">
@@ -834,6 +804,21 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
           </a>
         </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MY APPS ===================== -->
+  <section id="apps">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Also free</span>
+        <h2>My Apps</h2>
+        <p>A couple of small, focused apps I've built and use myself. Free to try, nothing to install.</p>
+      </div>
+
+      <div class="tool-grid app-grid">
 
         <div class="tool-card reveal">
           <span class="tool-badge">Free</span>
@@ -989,42 +974,6 @@
     document.getElementById('year').textContent = new Date().getFullYear();
   }catch(e){}
 
-  /* ---------- intro sequence ---------- */
-  var intro = document.getElementById('intro');
-  var introDone = true; /* default true so body never stays locked if this block fails */
-  try{
-    introDone = false;
-    var introTimer;
-
-    var endIntro = function(){
-      if(introDone) return;
-      introDone = true;
-      intro.classList.add('hide');
-      body.classList.remove('locked');
-      setTimeout(function(){
-        intro.classList.add('gone');
-        intro.setAttribute('aria-hidden','true');
-      }, 950);
-    };
-
-    introTimer = setTimeout(endIntro, reduced ? 400 : 3400);
-
-    intro.addEventListener('click', function(){ clearTimeout(introTimer); endIntro(); });
-    document.getElementById('skipIntro').addEventListener('click', function(e){
-      e.stopPropagation();
-      clearTimeout(introTimer); endIntro();
-    });
-    window.addEventListener('keydown', function(e){
-      if(!introDone && (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape')){
-        clearTimeout(introTimer); endIntro();
-      }
-    });
-  }catch(e){
-    /* if the intro sequence itself is broken, don't trap the visitor behind it */
-    if(intro){ intro.classList.add('hide','gone'); }
-    body.classList.remove('locked');
-  }
-
   /* ---------- mobile menu ---------- */
   try{
     var burger = document.getElementById('burgerBtn');
@@ -1088,7 +1037,7 @@
 
   /* ---------- reel side-nav + active link tracking ---------- */
   try{
-    var sections = ['home','tools','services','about','contact'].map(function(id){
+    var sections = ['home','tools','apps','services','about','contact'].map(function(id){
       return document.getElementById(id);
     });
     var reelBtns = document.querySelectorAll('.reel-nav button');
